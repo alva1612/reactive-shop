@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import ProductCard from "../../Components/Card";
 import Layout from "../../Components/Layout";
 
-export interface ProductCard {
+export interface ProductData {
   id: number;
   title: string;
   price: number;
@@ -17,20 +17,31 @@ export interface Rating {
   count: number;
 }
 
-const fetchProducts = async () => {
-  const products: ProductCard[] = await fetch('https://fakestoreapi.com/products').then(res => res.json())
-  console.log(products)
-}
-
 function Home() {
 
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState<ProductData[]>([])
+  useEffect(() => {
+    fetch('https://fakestoreapi.com/products')
+      .then(res => res.json())
+      .then(data => setProducts(data))
+  }, [])
 
   return (
     <>
       <Layout>
         <p>Home</p>
-        <ProductCard />
+        {products?.map((product) => (
+          <ProductCard
+            title={product.title}
+            image={product.image}
+            category={product.category}
+            id={product.id}
+            price={product.price}
+            rating={product.rating}
+            description={product.description}
+            key={product.id}
+          />
+        ))}
       </Layout>
     </>
   );
