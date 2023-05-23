@@ -1,8 +1,8 @@
 import { BrowserRouter, RouteObject, useRoutes } from "react-router-dom";
 import { shopRoutes, userRoutes } from "./Routes/shop.routes";
-import "./App.css";
 import NavBar from "./Components/NavBar";
-import Layout from "./Components/Layout";
+
+import "./App.css";
 
 const AppRoutes = () => {
   const routes = useRoutes([...shopRoutes, ...userRoutes] as RouteObject[]);
@@ -14,9 +14,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <Layout>
-        <AppRoutes />
-      </Layout>
+      <AppRoutes />
     </BrowserRouter>
   );
 }

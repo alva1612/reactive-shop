@@ -1,0 +1,10 @@
+.Card-AddToCart {
+    opacity: 0;
+    transition: all 0.25s ease-out;
+}
+
+.Card-Container:hover .Card-AddToCart {
+    opacity: 1;
+    transform: translateY(-40px);
+    transition: all 0.25s ease-in;
+}
