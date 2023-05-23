@@ -1,16 +1,33 @@
 import { NavLink } from "react-router-dom";
-import { shopRoutes } from "../../Routes/shop.routes";
+import { NavMenu, shopRoutes, userRoutes } from "../../Routes/shop.routes";
+
+interface NavMenuProps {
+  menuItems: NavMenu[]
+}
+const NavMenu = (props: NavMenuProps) => {
+  const { menuItems } = props
+  return (
+    <ul className="flex gap-5">
+      {menuItems.map((item) => (
+        <li className="min-w-fit" key={item.path}>
+          <NavLink
+            className={({ isActive }) => (isActive ? 'font-bold' : 'font-normal')}
+            to={item.path}
+          >
+            {item.label}
+          </NavLink>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 
 const NavBar = () => {
   return (
-    <nav>
-      <ul>
-        {shopRoutes.map((route) => (
-          <li>
-            <NavLink to={route.path}>{route.label}</NavLink>
-          </li>
-        ))}
-      </ul>
+    <nav className="flex justify-between">
+      <NavMenu menuItems={shopRoutes} />
+      <NavMenu menuItems={userRoutes} />
     </nav>
   );
 };
