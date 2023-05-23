@@ -20,7 +20,7 @@ const ProductCard = (props: PropsWithChildren<ProductData>) => {
                 />
             </figure>
             <p className='flex flex-col pb-4 z-10' >
-                <span className='py-1 px-4 pr-16' style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{props.title}</span>
+                <span className='py-1 px-4 pr-16 text-ellipsis overflow-hidden whitespace-nowrap'>{props.title}</span>
                 <span className='absolute py-1 px-4 bg-teal-800 bottom-4 -right-4 
                 border border-teal-800 rounded-lg'>
                     <div className='absolute w-full h-full inset-0 flex justify-center 

@@ -21,7 +21,7 @@ function Home() {
 
   const [products, setProducts] = useState<ProductData[]>([])
   useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
+    fetch('https://fakestoreapi.com/products?limit=2')
       .then(res => res.json())
       .then(data => setProducts(data))
   }, [])
