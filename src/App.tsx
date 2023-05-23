@@ -1,13 +1,10 @@
-import { BrowserRouter, useRoutes } from "react-router-dom";
-import Home from "./Pages/Home";
+import { BrowserRouter, RouteObject, useRoutes } from "react-router-dom";
+import { shopRoutes } from "./Routes/shop.routes";
 import "./App.css";
-import MyAccount from "./Pages/MyAccount";
+import NavBar from "./Components/NavBar";
 
 const AppRoutes = () => {
-  const routes = useRoutes([
-    { path: "/", element: <Home /> },
-    { path: "/account", element: <MyAccount /> },
-  ]);
+  const routes = useRoutes(shopRoutes as RouteObject[]);
   return routes;
 };
 
@@ -15,6 +12,7 @@ function App() {
   return (
     <BrowserRouter>
       <AppRoutes />
+      <NavBar />
     </BrowserRouter>
   );
 }
