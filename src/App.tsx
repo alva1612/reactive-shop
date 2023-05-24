@@ -1,21 +1,25 @@
 import { BrowserRouter, RouteObject, useRoutes } from "react-router-dom";
 import { shopRoutes, userRoutes } from "./Routes/shop.routes";
 import NavBar from "./Components/NavBar";
-
-import "./App.css";
+import { ShoppingCartProvider } from "./Context/CartContext";
+import { ShopContextProvider } from "./Context/ShopContext";
 
 const AppRoutes = () => {
   const routes = useRoutes([...shopRoutes, ...userRoutes] as RouteObject[]);
-  console.log(routes)
+  console.log(routes);
   return routes;
 };
 
 function App() {
   return (
-    <BrowserRouter>
-      <NavBar />
-      <AppRoutes />
-    </BrowserRouter>
+    <ShopContextProvider>
+      <ShoppingCartProvider>
+        <BrowserRouter>
+          <NavBar />
+          <AppRoutes />
+        </BrowserRouter>
+      </ShoppingCartProvider>
+    </ShopContextProvider>
   );
 }
 

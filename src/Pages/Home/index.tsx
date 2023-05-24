@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useContext } from "react";
+import { ShopContext } from "../../Context/ShopContext";
 import ProductCard from "../../Components/Card";
 import Layout from "../../Components/Layout";
 
@@ -18,30 +19,29 @@ export interface Rating {
 }
 
 function Home() {
-
-  const [products, setProducts] = useState<ProductData[]>([])
-  useEffect(() => {
-    fetch('https://fakestoreapi.com/products?limit=2')
-      .then(res => res.json())
-      .then(data => setProducts(data))
-  }, [])
-
+  const { shopItems } = useContext(ShopContext);
   return (
     <>
       <Layout>
         <p>Home</p>
-        {products?.map((product) => (
-          <ProductCard
-            title={product.title}
-            image={product.image}
-            category={product.category}
-            id={product.id}
-            price={product.price}
-            rating={product.rating}
-            description={product.description}
-            key={product.id}
-          />
-        ))}
+        <div
+          className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 
+          px-8 sm:px-4 md:px-0
+        w-full max-w-screen-lg mx-auto"
+        >
+          {shopItems?.map((product) => (
+            <ProductCard
+              title={product.title}
+              image={product.image}
+              category={product.category}
+              id={product.id}
+              price={product.price}
+              rating={product.rating}
+              description={product.description}
+              key={product.id}
+            />
+          ))}
+        </div>
       </Layout>
     </>
   );

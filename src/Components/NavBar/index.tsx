@@ -1,17 +1,21 @@
 import { NavLink } from "react-router-dom";
 import { NavMenu, shopRoutes, userRoutes } from "../../Routes/shop.routes";
+import { useContext } from "react";
+import { CartContext } from "../../Context/CartContext";
+import { BsFillCartFill } from "react-icons/bs";
 
 interface NavMenuProps {
-  menuItems: NavMenu[]
+  menuItems: NavMenu[];
 }
 const NavMenu = (props: NavMenuProps) => {
-  const { menuItems } = props
+  const { menuItems } = props;
+
   return (
-    <ul className="flex gap-5 p-5 text-teal-700">
+    <ul className="flex gap-5 p-5">
       {menuItems.map((item) => (
-        <li className="min-w-fit hover:text-teal-500" key={item.path}>
+        <li className="min-w-fit" key={item.path}>
           <NavLink
-            className={({ isActive }) => (isActive ? 'underline text-teal-500' : '')}
+            className={({ isActive }) => (isActive ? "text-cyan-500" : "")}
             to={item.path}
           >
             {item.label}
@@ -19,15 +23,19 @@ const NavMenu = (props: NavMenuProps) => {
         </li>
       ))}
     </ul>
-  )
-}
-
+  );
+};
 
 const NavBar = () => {
+  const { cartTotal } = useContext(CartContext);
   return (
     <nav className="flex justify-between fixed top-0 w-screen">
       <NavMenu menuItems={shopRoutes} />
       <NavMenu menuItems={userRoutes} />
+      <div>
+        <BsFillCartFill />
+        <span>{cartTotal}</span>
+      </div>
     </nav>
   );
 };

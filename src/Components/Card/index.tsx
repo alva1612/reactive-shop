@@ -1,43 +1,45 @@
-import { BsCartPlusFill } from 'react-icons/bs'
-import './Card.css'
-import { PropsWithChildren } from 'react'
-import { ProductData } from '../../Pages/Home'
+import { AiFillPlusCircle } from "react-icons/ai";
+import "./Card.css";
+import { PropsWithChildren, useContext } from "react";
+import { ProductData } from "../../Pages/Home";
+import { CartContext } from "../../Context/CartContext";
 const ProductCard = (props: PropsWithChildren<ProductData>) => {
+  const { handleAddToCart } = useContext(CartContext);
+  const { children, ...product } = props;
 
-    return (
-        <div className='flex flex-col justify-between align-items-between cursor-pointer 
-        w-60 h-80 rounded-lg bg-teal-600/10 transition ease-in-out hover:bg-teal-400/10 
-        border border-cyan-900 drop-shadow-md Card-Container'>
-            <figure className='relative mb-2 w-full rounded-t-lg h-4/5 overflow-hidden'>
-                <span className='absolute z-10 top-2 left-3 py-1 px-4 border border-slate-600/60 
-                rounded-full transition ease-in-out bg-slate-800/60 hover:bg-slate-800/80 drop-shadow-md'>
-                    {props.category}
-                </span>
-                <img
-                    alt='headphones'
-                    className='z-0 h-full w-full object-center object-cover'
-                    src={props.image}
-                />
-            </figure>
-            <p className='flex flex-col pb-4 z-10' >
-                <span className='py-1 px-4 pr-16 text-ellipsis overflow-hidden whitespace-nowrap'>{props.title}</span>
-                <span className='absolute py-1 px-4 bg-teal-800 bottom-4 -right-4 
-                border border-teal-800 rounded-lg'>
-                    <div className='absolute w-full h-full inset-0 flex justify-center 
-                    drop-shadow Card-AddToCart'>
-                        <div className="bg-teal-800 w-8 h-8 rounded-full flex 
-                        justify-center items-center">
-                            <BsCartPlusFill />
-                        </div>
-                    </div>
-                    <p className='min-w-[32px]'>
-                        {props.price}
-                    </p>
-
-                </span>
-            </p>
+  return (
+    <div
+      className="flex flex-col gap-3 align-items-between cursor-pointer 
+        w-full h-80 rounded-lg transition ease-in-out hover:bg-cyan-200/20 
+          border border-slate-200 Card-Container"
+    >
+      <figure className="relative mb-2 w-full rounded-t-lg h-1/2 overflow-hidden">
+        <img
+          alt="headphones"
+          className="z-0 h-full w-full object-center object-cover"
+          src={props.image}
+        />
+      </figure>
+      <div className="flex flex-col flex-grow px-4 justify-between">
+        <div className="flex flex-col">
+          <p className="text-lg font-medium">{props.title}</p>
+          <small className="text-base text-slate-500">{props.category}</small>
         </div>
-    )
-}
+        <div className="flex justify-between pb-2">
+          <div className="flex">
+            <p className="text-lg font-semibold leading-8">{props.price}</p>
+            {children ? <span></span> : null}
+          </div>
+          <div
+            className="flex justify-center items-center text-[2rem] text-cyan-500"
+            onClick={() => handleAddToCart(product)}
+          >
+            <AiFillPlusCircle />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default ProductCard
+export default ProductCard;
