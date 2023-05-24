@@ -1,6 +1,5 @@
 import { PropsWithChildren, createContext, useState } from "react";
 import { ProductData } from "../Pages/Home";
-import { useFetch } from "../Hooks/common.hook";
 
 interface CartContextValue {
   cartItems: ProductData[];

@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 import ProductCard from "../../Components/Card";
 import Layout from "../../Components/Layout";
+import ProductDetail from "../../Components/ProductDetail";
 
 export interface ProductData {
   id: number;
@@ -42,6 +43,7 @@ function Home() {
             />
           ))}
         </div>
+        <ProductDetail />
       </Layout>
     </>
   );
