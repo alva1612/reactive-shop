@@ -5,7 +5,7 @@ import { ProductData } from "../../Pages/Home";
 import { CartContext } from "../../Context/CartContext";
 import { ModalContext } from "../../Context/ModalContext";
 const ProductCard = (props: PropsWithChildren<ProductData>) => {
-  const { handleDisplayDetail } = useContext(ModalContext);
+  const { handleDisplayDetail, handleDisplayCart } = useContext(ModalContext);
   const { handleAddToCart } = useContext(CartContext);
   const { children, ...product } = props;
 
@@ -35,7 +35,10 @@ const ProductCard = (props: PropsWithChildren<ProductData>) => {
           </div>
           <button
             className="flex justify-center items-center text-[2rem] text-cyan-500 cursor-pointer"
-            onClick={() => handleAddToCart(product)}
+            onClick={(event) => {
+              handleAddToCart(event, product);
+              handleDisplayCart();
+            }}
           >
             <AiFillPlusCircle />
           </button>

@@ -1,10 +1,22 @@
-import { PropsWithChildren, createContext, useState } from "react";
+import {
+  MouseEventHandler,
+  PropsWithChildren,
+  createContext,
+  useState,
+} from "react";
 import { ProductData } from "../Pages/Home";
 
+interface CartItem extends ProductData {
+  quantity: number;
+}
+
 interface CartContextValue {
-  cartItems: ProductData[];
+  cartItems: CartItem[];
   cartTotal: number;
-  handleAddToCart: (prod: ProductData) => void;
+  handleAddToCart: <T>(
+    e: React.MouseEvent<T, MouseEvent>,
+    prod: ProductData
+  ) => void;
 }
 
 const defaultValue: CartContextValue = {
@@ -20,12 +32,27 @@ export const CartContext = createContext(defaultValue);
 export const ShoppingCartProvider = (propsChildren: PropsWithChildren) => {
   const { children } = propsChildren;
 
-  const [cartItems, setCartItems] = useState<ProductData[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const cartTotal = cartItems.length;
 
-  const handleAddToCart = (product: ProductData) => {
-    setCartItems([...cartItems, product]);
-  };
+  function handleAddToCart<T>(
+    event: React.MouseEvent<T, MouseEvent>,
+    product: ProductData
+  ): void {
+    event.stopPropagation();
+    const indexOfProduct = cartItems.findIndex(
+      (cartItem) => cartItem.id === product.id
+    );
+
+    if (indexOfProduct >= 0) {
+      const newCartItems = [...cartItems];
+      newCartItems[indexOfProduct].quantity++;
+      setCartItems(newCartItems);
+      return;
+    }
+
+    setCartItems([...cartItems, { ...product, quantity: 1 }]);
+  }
 
   return (
     <CartContext.Provider
