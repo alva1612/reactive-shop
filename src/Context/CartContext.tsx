@@ -1,14 +1,16 @@
 import { PropsWithChildren, createContext, useState } from "react";
 import { ProductData } from "../Pages/Home";
 import { throwDefaultContext } from "../Constants/ErrorMessages";
+import { Calcs } from "../Utils";
 
-interface CartItem extends ProductData {
+export interface CartItem extends ProductData {
   quantity: number;
 }
 
 interface CartContextValue {
   cartItems: CartItem[];
   cartTotal: number;
+  cartTotalPrice: number;
   handleAddToCart: <T>(
     e: React.MouseEvent<T, MouseEvent>,
     prod: ProductData
@@ -31,6 +33,7 @@ const defaultValue: CartContextValue = {
   handleRemoveFromCart: throwDefaultContext,
   handlePurgeFromCart: throwDefaultContext,
   cartTotal: 0,
+  cartTotalPrice: 0,
 };
 
 export const CartContext = createContext(defaultValue);
@@ -40,6 +43,7 @@ export const ShoppingCartProvider = (propsChildren: PropsWithChildren) => {
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const cartTotal = cartItems.length;
+  const cartTotalPrice = Calcs.getTotalPrice(cartItems);
 
   function handleAddToCart<T>(
     event: React.MouseEvent<T, MouseEvent>,
@@ -99,6 +103,7 @@ export const ShoppingCartProvider = (propsChildren: PropsWithChildren) => {
         handleAddToCart,
         handleRemoveFromCart,
         handlePurgeFromCart,
+        cartTotalPrice,
       }}
     >
       {children}
