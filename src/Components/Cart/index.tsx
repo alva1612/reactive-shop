@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiFillCloseCircle, AiFillDelete } from "react-icons/ai";
 import { ModalContext } from "../../Context/ModalContext";
 import { CartContext } from "../../Context/CartContext";
 import "./Cart.css";
 
 const Cart = () => {
   const { handleCloseCart, cart } = useContext(ModalContext);
-  const { cartItems } = useContext(CartContext);
+  const { cartItems, handlePurgeFromCart } = useContext(CartContext);
 
   return cart.display ? (
     <aside
@@ -24,7 +24,7 @@ const Cart = () => {
       <ul className="flex flex-col gap-5 my-5">
         {cartItems.length <= 0 ? <p>Vacío</p> : <></>}
         {cartItems.map((product) => (
-          <div className="flex" key={product.id}>
+          <div className="flex relative" key={product.id}>
             <img
               className="rounded-lg border shadow-sm h-[5rem] aspect-square object-cover"
               src={product.image}
@@ -39,6 +39,12 @@ const Cart = () => {
                 <p>{product.quantity}</p>
               </div>
             </div>
+            <button
+              className="absolute right-0 bottom-0"
+              onClick={(event) => handlePurgeFromCart(event, product)}
+            >
+              <AiFillDelete />
+            </button>
           </div>
         ))}
       </ul>

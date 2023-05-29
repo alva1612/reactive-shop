@@ -17,6 +17,10 @@ interface CartContextValue {
     e: React.MouseEvent<T, MouseEvent>,
     prod: ProductData
   ) => void;
+  handlePurgeFromCart: <T>(
+    e: React.MouseEvent<T, MouseEvent>,
+    prod: ProductData
+  ) => void;
 }
 
 const defaultValue: CartContextValue = {
@@ -25,6 +29,7 @@ const defaultValue: CartContextValue = {
     throw new Error();
   },
   handleRemoveFromCart: throwDefaultContext,
+  handlePurgeFromCart: throwDefaultContext,
   cartTotal: 0,
 };
 
@@ -59,14 +64,11 @@ export const ShoppingCartProvider = (propsChildren: PropsWithChildren) => {
     event: React.MouseEvent<T, MouseEvent>,
     product: ProductData
   ): void {
-    console.log("Product a reducir", product);
-
     event.stopPropagation();
     const cartItemIndex = cartItems.findIndex(
       (cartItem) => cartItem.id === product.id
     );
     const cartItem = cartItems[cartItemIndex];
-    console.log("CartItem encontrado", cartItem);
 
     if (!cartItem) return;
 
@@ -76,8 +78,16 @@ export const ShoppingCartProvider = (propsChildren: PropsWithChildren) => {
     if (cartItem.quantity <= 0)
       newCartItems = cartItems.filter((item) => item.id !== product.id);
     else newCartItems = cartItems;
-    console.log("NUEVO CART", newCartItems);
 
+    setCartItems([...newCartItems]);
+  }
+
+  function handlePurgeFromCart<T>(
+    event: React.MouseEvent<T, MouseEvent>,
+    product: ProductData
+  ): void {
+    event.stopPropagation();
+    const newCartItems = cartItems.filter((item) => item.id !== product.id);
     setCartItems([...newCartItems]);
   }
 
@@ -88,6 +98,7 @@ export const ShoppingCartProvider = (propsChildren: PropsWithChildren) => {
         cartTotal,
         handleAddToCart,
         handleRemoveFromCart,
+        handlePurgeFromCart,
       }}
     >
       {children}
