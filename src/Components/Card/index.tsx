@@ -1,12 +1,56 @@
-import { AiFillPlusCircle } from "react-icons/ai";
+import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import "./Card.css";
 import { PropsWithChildren, useContext } from "react";
 import { ProductData } from "../../Pages/Home";
 import { CartContext } from "../../Context/CartContext";
 import { ModalContext } from "../../Context/ModalContext";
+
+interface CartButtonProps {
+  product: ProductData;
+}
+const CartButton = (props: PropsWithChildren<CartButtonProps>) => {
+  const { product } = props;
+  const { handleDisplayCart } = useContext(ModalContext);
+  const { handleAddToCart, handleRemoveFromCart, cartItems } =
+    useContext(CartContext);
+
+  const isProductInCart = cartItems.find(
+    (cartItem) => cartItem.id === product.id
+  );
+
+  return (
+    <div className="flex gap-5">
+      {isProductInCart ? (
+        <>
+          <button
+            className="flex justify-center items-center text-[2rem] text-cyan-500 cursor-pointer"
+            onClick={(event) => {
+              handleRemoveFromCart(event, product);
+              handleDisplayCart();
+            }}
+          >
+            <AiFillMinusCircle />
+          </button>
+          <p>{isProductInCart.quantity}</p>
+        </>
+      ) : (
+        <></>
+      )}
+      <button
+        className="flex justify-center items-center text-[2rem] text-cyan-500 cursor-pointer"
+        onClick={(event) => {
+          handleAddToCart(event, product);
+          handleDisplayCart();
+        }}
+      >
+        <AiFillPlusCircle />
+      </button>
+    </div>
+  );
+};
+
 const ProductCard = (props: PropsWithChildren<ProductData>) => {
-  const { handleDisplayDetail, handleDisplayCart } = useContext(ModalContext);
-  const { handleAddToCart } = useContext(CartContext);
+  const { handleDisplayDetail } = useContext(ModalContext);
   const { children, ...product } = props;
 
   return (
@@ -33,15 +77,7 @@ const ProductCard = (props: PropsWithChildren<ProductData>) => {
             <p className="text-lg font-semibold leading-8">{props.price}</p>
             {children ? <span></span> : null}
           </div>
-          <button
-            className="flex justify-center items-center text-[2rem] text-cyan-500 cursor-pointer"
-            onClick={(event) => {
-              handleAddToCart(event, product);
-              handleDisplayCart();
-            }}
-          >
-            <AiFillPlusCircle />
-          </button>
+          <CartButton product={product} />
         </div>
       </div>
     </div>
