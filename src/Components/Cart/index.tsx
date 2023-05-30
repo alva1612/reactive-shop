@@ -57,7 +57,7 @@ const Cart = () => {
       <ul className="flex flex-col gap-5 my-5">
         {cartItems.length <= 0 ? <p>Vacío</p> : <></>}
         {cartItems.map((product) => (
-          <CartItem product={product} />
+          <CartItem product={product} key={product.id} />
         ))}
       </ul>
       {cartTotalPrice > 0 ? (
