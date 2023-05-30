@@ -23,6 +23,7 @@ interface CartContextValue {
     e: React.MouseEvent<T, MouseEvent>,
     prod: ProductData
   ) => void;
+  handleClearCart: () => void;
 }
 
 const defaultValue: CartContextValue = {
@@ -32,6 +33,7 @@ const defaultValue: CartContextValue = {
   },
   handleRemoveFromCart: throwDefaultContext,
   handlePurgeFromCart: throwDefaultContext,
+  handleClearCart: throwDefaultContext,
   cartTotal: 0,
   cartTotalPrice: 0,
 };
@@ -95,6 +97,10 @@ export const ShoppingCartProvider = (propsChildren: PropsWithChildren) => {
     setCartItems([...newCartItems]);
   }
 
+  function handleClearCart() {
+    setCartItems([]);
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -103,6 +109,7 @@ export const ShoppingCartProvider = (propsChildren: PropsWithChildren) => {
         handleAddToCart,
         handleRemoveFromCart,
         handlePurgeFromCart,
+        handleClearCart,
         cartTotalPrice,
       }}
     >

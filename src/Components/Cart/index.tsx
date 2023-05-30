@@ -4,6 +4,7 @@ import { ModalContext } from "../../Context/ModalContext";
 import { CartContext, CartItem } from "../../Context/CartContext";
 import "./Cart.css";
 import { Transform } from "../../Utils";
+import { OrderContext } from "../../Context/OrderContext";
 
 interface CartItemProps {
   product: CartItem;
@@ -40,6 +41,7 @@ const CartItem = (props: PropsWithChildren<CartItemProps>) => {
 const Cart = () => {
   const { handleCloseCart, cart } = useContext(ModalContext);
   const { cartItems, cartTotalPrice } = useContext(CartContext);
+  const { handleNewOrder } = useContext(OrderContext);
 
   return cart.display ? (
     <aside
@@ -68,6 +70,7 @@ const Cart = () => {
       ) : (
         <></>
       )}
+      <button onClick={() => handleNewOrder(cartItems)}>Al Checkout</button>
     </aside>
   ) : (
     <></>

@@ -5,6 +5,7 @@ import { ShoppingCartProvider } from "./Context/CartContext";
 import { ShopContextProvider } from "./Context/ShopContext";
 import { ModalProvider } from "./Context/ModalContext";
 import Cart from "./Components/Cart";
+import { OrderProvider } from "./Context/OrderContext";
 
 const AppRoutes = () => {
   const routes = useRoutes([...shopRoutes, ...userRoutes] as RouteObject[]);
@@ -17,11 +18,13 @@ function App() {
     <ModalProvider>
       <ShopContextProvider>
         <ShoppingCartProvider>
-          <BrowserRouter>
-            <NavBar />
-            <AppRoutes />
-            <Cart />
-          </BrowserRouter>
+          <OrderProvider>
+            <BrowserRouter>
+              <NavBar />
+              <AppRoutes />
+              <Cart />
+            </BrowserRouter>
+          </OrderProvider>
         </ShoppingCartProvider>
       </ShopContextProvider>
     </ModalProvider>
