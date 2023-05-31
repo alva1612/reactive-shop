@@ -5,12 +5,13 @@ import { CartContext, CartItem } from "../../Context/CartContext";
 import "./Cart.css";
 import { Transform } from "../../Utils";
 import { OrderContext } from "../../Context/OrderContext";
+import { Link } from "react-router-dom";
 
 interface CartItemProps {
   product: CartItem;
 }
 
-const CartItem = (props: PropsWithChildren<CartItemProps>) => {
+export const CartItemCard = (props: PropsWithChildren<CartItemProps>) => {
   const { handlePurgeFromCart } = useContext(CartContext);
   const { product } = props;
 
@@ -59,7 +60,7 @@ const Cart = () => {
       <ul className="flex flex-col gap-5 my-5">
         {cartItems.length <= 0 ? <p>Vacío</p> : <></>}
         {cartItems.map((product) => (
-          <CartItem product={product} key={product.id} />
+          <CartItemCard product={product} key={product.id} />
         ))}
       </ul>
       {cartTotalPrice > 0 ? (
@@ -70,7 +71,9 @@ const Cart = () => {
       ) : (
         <></>
       )}
-      <button onClick={() => handleNewOrder(cartItems)}>Al Checkout</button>
+      <Link to="/my-orders/last">
+        <button onClick={() => handleNewOrder(cartItems)}>Al Checkout</button>
+      </Link>
     </aside>
   ) : (
     <></>

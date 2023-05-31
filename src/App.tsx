@@ -6,28 +6,30 @@ import { ShopContextProvider } from "./Context/ShopContext";
 import { ModalProvider } from "./Context/ModalContext";
 import Cart from "./Components/Cart";
 import { OrderProvider } from "./Context/OrderContext";
+import React from "react";
 
 const AppRoutes = () => {
   const routes = useRoutes([...shopRoutes, ...userRoutes] as RouteObject[]);
-  console.log(routes);
   return routes;
 };
 
 function App() {
   return (
-    <ModalProvider>
-      <ShopContextProvider>
-        <ShoppingCartProvider>
-          <OrderProvider>
-            <BrowserRouter>
-              <NavBar />
-              <AppRoutes />
-              <Cart />
-            </BrowserRouter>
-          </OrderProvider>
-        </ShoppingCartProvider>
-      </ShopContextProvider>
-    </ModalProvider>
+    <React.StrictMode>
+      <ModalProvider>
+        <ShopContextProvider>
+          <ShoppingCartProvider>
+            <OrderProvider>
+              <BrowserRouter>
+                <NavBar />
+                <AppRoutes />
+                <Cart />
+              </BrowserRouter>
+            </OrderProvider>
+          </ShoppingCartProvider>
+        </ShopContextProvider>
+      </ModalProvider>
+    </React.StrictMode>
   );
 }
 

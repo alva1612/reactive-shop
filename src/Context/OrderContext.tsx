@@ -1,10 +1,14 @@
 import { PropsWithChildren, createContext, useContext, useState } from "react";
 import { CartContext, CartItem } from "./CartContext";
 import { ERROR } from "../Constants/ErrorMessages";
+import { ModalContext } from "./ModalContext";
 
-interface Order {
-  cartItems: CartItem[];
+export interface Order {
+  id: number;
+  orderItems: CartItem[];
   createDate: Date;
+  orderTotalPrice: number;
+  orderTotal: number;
 }
 
 interface OrderContextValue {
@@ -13,7 +17,15 @@ interface OrderContextValue {
 }
 
 const defaultValue: OrderContextValue = {
-  order: [{ cartItems: [], createDate: new Date() }],
+  order: [
+    {
+      id: -1,
+      orderItems: [],
+      createDate: new Date(),
+      orderTotal: 0,
+      orderTotalPrice: 0,
+    },
+  ],
   handleNewOrder: () => {
     throw new Error(ERROR.CONTEXT_DEFAULT);
   },
@@ -22,18 +34,27 @@ const defaultValue: OrderContextValue = {
 export const OrderContext = createContext(defaultValue);
 
 export const OrderProvider = (propsChildren: PropsWithChildren) => {
-  const { handleClearCart } = useContext(CartContext);
+  const { handleClearCart, cartTotalPrice, cartTotal } =
+    useContext(CartContext);
+  const { handleCloseAll } = useContext(ModalContext);
+
   const { children } = propsChildren;
 
   const [order, setOrder] = useState<Order[]>([]);
 
-  const handleNewOrder = (cartItems: CartItem[]) => {
+  const lastOrder = order[order.length - 1];
+  const handleNewOrder = (orderItems: CartItem[]) => {
+    console.trace("execute");
     const orderToAdd: Order = {
+      orderTotal: cartTotal,
+      orderTotalPrice: cartTotalPrice,
+      id: lastOrder ? lastOrder.id++ : 1,
       createDate: new Date(),
-      cartItems,
+      orderItems,
     };
     setOrder([...order, orderToAdd]);
     handleClearCart();
+    handleCloseAll();
   };
 
   return (

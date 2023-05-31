@@ -3,6 +3,7 @@ import Home from "../Pages/Home";
 import MyAccount from "../Pages/MyAccount";
 import MyOrder from "../Pages/MyOrder";
 import SignIn from "../Pages/SignIn";
+import MyOrders from "../Pages/MyOrders";
 
 interface NavMenuProps {
   label: string;
@@ -24,6 +25,11 @@ export const shopRoutes: NavMenu[] = [
 export const userRoutes: NavMenu[] = [
   { path: "/account", element: <MyAccount />, label: "My Account", order: 99 },
   { path: "/order", element: <MyOrder />, label: "My Order", order: 98 },
-  { path: "/history", label: "My History", order: 97 },
+  {
+    path: "/my-orders/last",
+    element: <MyOrders />,
+    label: "My Orders",
+    order: 97,
+  },
   { path: "/sign-in", element: <SignIn />, label: "Sign In", order: 96 },
-]
+];

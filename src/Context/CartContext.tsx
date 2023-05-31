@@ -41,6 +41,7 @@ const defaultValue: CartContextValue = {
 export const CartContext = createContext(defaultValue);
 
 export const ShoppingCartProvider = (propsChildren: PropsWithChildren) => {
+  console.log("SHOPING CART PROVIDER");
   const { children } = propsChildren;
 
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
